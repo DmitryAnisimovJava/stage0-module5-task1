@@ -2,7 +2,6 @@ package com.epam.mjc.stage0;
 
 
 
-import java.util.Arrays;
 
 
 
@@ -49,10 +48,12 @@ public class ArrayTasks {
      * arr = [5, -3, -4] -> sum = -2
      */
     public int totalSum(int[] arr) {
-    	if (arr.length == 1) {
+    	int[] copy = new int[arr.length - 1];
+    	if (copy.length == 1) {
 			return arr[0];
 		}
-    	return arr[arr.length - 1] + totalSum(Arrays.copyOf(arr, arr.length - 1));
+    	System.arraycopy(arr, 0, copy, 0, arr.length - 1);
+    	return arr[arr.length - 1] + totalSum(copy);
     }
 
     /**
@@ -113,7 +114,9 @@ public class ArrayTasks {
     		if (indexOfPosiviveIntsArray == 0) {
 				return new int[0];
 			}
-    		return Arrays.copyOf(positiveInts, indexOfPosiviveIntsArray + 1);
+    		int[] result = new int[indexOfPosiviveIntsArray];
+    		System.arraycopy(positiveInts, 0, result, 0, indexOfPosiviveIntsArray);
+    		return result;
     }
 
     /**
