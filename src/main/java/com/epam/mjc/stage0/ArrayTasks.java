@@ -1,5 +1,11 @@
 package com.epam.mjc.stage0;
 
+
+
+import java.util.Arrays;
+
+
+
 /**
  * Here are the tasks for working with the arrays.
  * <p>
@@ -11,7 +17,7 @@ public class ArrayTasks {
      * Return a String[] array that will list all the seasons of the year, starting with winter.
      */
     public String[] seasonsArray() {
-    	String[] seasonString = new String[] {"Winter", "Spring", "Summer", "Autumn"};
+    	String[] seasonString = new String[] {"winter", "spring", "summer", "autumn"};
     	return seasonString;
     	
     }
@@ -27,7 +33,11 @@ public class ArrayTasks {
      * length = 5  -> [1, 2, 3, 4, 5]
      */
     public int[] generateNumbers(int length) {
-
+    	int[] result = new int[length];
+    	for(int i = 0; i <= length - 1; i++) {
+    		result[i] = ++i;
+    	}
+    	return result;
     }
 
     /**
@@ -39,7 +49,10 @@ public class ArrayTasks {
      * arr = [5, -3, -4] -> sum = -2
      */
     public int totalSum(int[] arr) {
-
+    	if (arr.length == 1) {
+			return arr[0];
+		}
+    	return arr[arr.length - 1] + totalSum(Arrays.copyOf(arr, arr.length - 1));
     }
 
     /**
@@ -52,7 +65,12 @@ public class ArrayTasks {
      * arr = [5, -3, -4],   number = 10    ->  -1
      */
     public int findIndexOfNumber(int[] arr, int number) {
-
+    	for(int i = 0; i <= arr.length - 1; i++) {
+    		if (arr[i] == number) {
+				return i;
+			}
+    	}
+    	return -1;
     }
 
     /**
@@ -65,7 +83,11 @@ public class ArrayTasks {
      * arr = ["pineapple", "apple", "pen"] -> ["pen", "apple", "pineapple"]
      */
     public String[] reverseArray(String[] arr) {
-
+    	String[] reversedArrayStrings = new String[arr.length];
+    	for(int i = arr.length - 1; i >= 0; i--) {
+    		reversedArrayStrings[-(i - arr.length + 1)] = arr[i];
+    	}
+    	return reversedArrayStrings;
     }
 
     /**
@@ -80,7 +102,18 @@ public class ArrayTasks {
      * arr = [1, 2]         -> [1, 2]
      */
     public int[] getOnlyPositiveNumbers(int[] arr) {
-
+    	int[] positiveInts = new int[arr.length];
+    	int indexOfPosiviveIntsArray = 0;
+    		for(int i = 0; i <= arr.length - 1; i++) {
+    			if (arr[i] > 0) {
+					positiveInts[indexOfPosiviveIntsArray] = arr[i];
+					indexOfPosiviveIntsArray++;
+				}
+    		}
+    		if (indexOfPosiviveIntsArray == 0) {
+				return new int[0];
+			}
+    		return Arrays.copyOf(positiveInts, indexOfPosiviveIntsArray + 1);
     }
 
     /**
@@ -94,6 +127,78 @@ public class ArrayTasks {
      * arr = [[5, 4], [7]]       -> [[7], [4, 5]]
      */
     public int[][] sortRaggedArray(int[][] arr) {
-
+    	for(int j = 0; j <= arr.length - 1; j++) {
+    		int[] numbersAscending = new int[arr[j].length];
+    		System.arraycopy(arr[j], 0, numbersAscending, 0, arr[j].length);
+    		
+    		int temp;
+    		 
+            for (int i = numbersAscending.length / 2 - 1; i >= 0; i--)                
+            {
+                heapify(numbersAscending, numbersAscending.length, i);
+            }
+           
+     
+            for (int i = numbersAscending.length - 1; i > 0; i--)                           
+            {
+                temp = numbersAscending[0];                                                  
+                numbersAscending[0] = numbersAscending[i];
+                numbersAscending[i] = temp;
+                heapify(numbersAscending, i, 0);                                            
+            }
+            System.arraycopy(numbersAscending, 0, arr[j], 0, arr[j].length);
+        }
+    	
+    	int[] arrayOfStrokesInMultyArray = new int[arr.length];
+    	int[] numbersOfStroke = new int[arr.length];
+    	for(int i = 0; i <= arrayOfStrokesInMultyArray.length - 1; i++) {
+    		arrayOfStrokesInMultyArray[i] = arr[i].length;
+    		numbersOfStroke[i] = i;
+    	}
+    	int temp = 0;
+    	boolean sorted = false;
+    	while (!sorted) {
+    		sorted = true;
+			for(int i = 0; i < arrayOfStrokesInMultyArray.length - 1; i++) {
+				if (arrayOfStrokesInMultyArray[i] >= arrayOfStrokesInMultyArray[i+1] ) {
+					temp = arrayOfStrokesInMultyArray[i];
+					arrayOfStrokesInMultyArray[i] = arrayOfStrokesInMultyArray[i+1];
+					arrayOfStrokesInMultyArray[i+1] = temp;
+					temp = numbersOfStroke[i];
+					numbersOfStroke[i] = numbersOfStroke[i+1];
+					numbersOfStroke[i+1] = temp;
+					sorted = false;
+				}
+			}
+		}
+    	int[][] sortedArray = new int[arr.length][];
+    	for(int i = 0; i <= sortedArray.length - 1; i++) {
+    		sortedArray[i] = arr[numbersOfStroke[i]];
+			}
+     	return sortedArray;
     }
+        void heapify(int arr[], int n, int i)
+        {
+            int MAX = i; 
+            int left = 2 * i + 1; 
+            int right = 2 * i + 2; 
+            int temp;
+
+            if (left < n && arr[left] > arr[MAX])            
+            {
+                MAX = left;
+            }
+     
+            if (right < n && arr[right] > arr[MAX])            
+            {
+                MAX = right;
+            }
+            if (MAX != i) {
+                temp = arr[i];
+                arr[i] = arr[MAX];
+                arr[MAX] = temp;
+                heapify(arr, n, MAX);
+            }
+        }
 }
+
