@@ -48,12 +48,13 @@ public class ArrayTasks {
      * arr = [5, -3, -4] -> sum = -2
      */
     public int totalSum(int[] arr) {
+    	int result = arr[arr.length - 1];
     	int[] copy = new int[arr.length - 1];
-    	if (copy.length == 1) {
+    	if (copy.length < 1) {
 			return arr[0];
 		}
     	System.arraycopy(arr, 0, copy, 0, arr.length - 1);
-    	return arr[arr.length - 1] + totalSum(copy);
+    	return result + totalSum(copy);
     }
 
     /**
